@@ -21,6 +21,47 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// tomcat
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// DB & ORM
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	//oracle
+	implementation 'com.oracle.database.jdbc:ojdbc11:21.8.0.0'
+	//	implementation 'mysql:mysql-connector-j'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	/**
+	 * log4j
+	 */
+	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+
+
+	// 롬복
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// QueryDsl ( 버전 명시야해 jakarta 사용하며, 기본은 javax )
+	implementation 'com.querydsl:querydsl-apt:5.0.0'
+	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	implementation 'com.querydsl:querydsl-core:5.0.0'
+
+	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+}
+
+/**
+ * 스프링 부트는 클래스 경로에 있는 경우 로깅 구성을 위해 Log4j2를 지원한다.
+ * 종속 항목을 조립하기 위해 starter를 사용하는 경우 Logback을 제외하고 log4j2를 포함해야 한다.
+ */
+configurations {
+	all {
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+	}
 }
 
 tasks.named('test') {
